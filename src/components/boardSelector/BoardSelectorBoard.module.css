@@ -1,0 +1,15 @@
+@import '../../themeColours.module.css';
+
+.container {
+    border-radius: 10px;
+    background-color: var(--mid);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+
+.boardName {
+    color: whitesmoke
+}

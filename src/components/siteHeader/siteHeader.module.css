@@ -1,0 +1,7 @@
+@import '../../themeColours.module.css';
+
+.siteHeader {
+    background-color: var(--dark);
+    width: 100vw;
+    height: 50px;
+}
