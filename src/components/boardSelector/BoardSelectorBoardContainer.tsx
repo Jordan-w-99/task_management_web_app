@@ -1,10 +1,12 @@
-import { GetBoards } from "../../api/getBoardData"
-import { BoardDetails } from "../../models/boardDetails"
 import { BoardSelectorBoard } from "./BoardSelectorBoard"
 import styles from './BoardSelectorBoardContainer.module.css'
+import { BoardDetails } from "../../models/boardDetails"
 
-export const BoardSelectorBoardContainer = () => {
-    const boards: BoardDetails[] = GetBoards()
+export interface BoardSelectorBoardContainerProps {
+    boards: BoardDetails[]
+}
+
+export const BoardSelectorBoardContainer = ({ boards }: BoardSelectorBoardContainerProps) => {
 
     return (
         <div className={styles.container}>
