@@ -5,11 +5,13 @@ export interface BoardData extends BoardDetails {
 }
 
 export interface BoardList {
+    id: string
     title: string
     items: BoardListItem[]
 }
 
 export interface BoardListItem {
+    id: string
     title: string
     description: string
     complete: boolean
