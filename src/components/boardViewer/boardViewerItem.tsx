@@ -1,4 +1,6 @@
 import { BoardListItem } from "../../models/boardData";
+import styles from "./boardViewerItem.module.css"
+import { BoardViewerItemModal } from "./boardViewerItemModal";
 
 export interface BoardViewerItemProps {
     itemData: BoardListItem
@@ -6,9 +8,9 @@ export interface BoardViewerItemProps {
 
 export const BoardViewerItem = ({ itemData }: BoardViewerItemProps) => {
     return (
-        <div>
+        <div className={styles.boardViewerItem}>
             {itemData.title}
-            {itemData.description}
+            <BoardViewerItemModal />
         </div>
     )
 }

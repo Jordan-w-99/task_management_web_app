@@ -1,6 +1,7 @@
 import { BoardDetails } from "./boardDetails";
 
 export interface BoardData extends BoardDetails {
+    id: string
     lists: BoardList[]
 }
 

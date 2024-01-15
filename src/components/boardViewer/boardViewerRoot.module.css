@@ -1,5 +1,8 @@
+@import '../../globalVariables.module.css';
+
 .container {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    max-height: calc(100% - var(--headerHeight));
 }

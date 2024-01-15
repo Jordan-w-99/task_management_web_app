@@ -5,17 +5,16 @@
     max-width: 300px;
     background-color: var(--mid);
     border-radius: 10px;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    padding: 10px;
+    gap: 10px
 }
 
 .boardListItemsContainer {
     flex-grow: 1;
     overflow-y: auto;
-}
-
-.boardListItems {
-    overflow-y: auto;
-    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }

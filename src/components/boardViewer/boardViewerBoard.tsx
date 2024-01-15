@@ -4,6 +4,8 @@ import { NewItemInput } from "../common/newItemInput"
 import { BoardViewerList } from "./boardViewerList"
 import { generateNewId } from "../../utils/generateNewId"
 import styles from './boardViewerBoard.module.css'
+import { saveBoard } from "../../api/saveBoardData"
+import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext"
 
 export interface BoardViewerBoardProps {
     boardData: BoardData
@@ -19,17 +21,22 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
             items: []
         }
 
-        setLists([...lists, newList])
+        const updatedLists = [...lists, newList]
+
+        setLists(updatedLists)
+        saveBoard(boardData.id, updatedLists)
     }
 
     return (
-        <div className={styles.boardContainer}>
-            {lists.map(list => <BoardViewerList listData={list} />)}
-            <NewItemInput
-                inputPlaceholder="List Name..."
-                buttonText="Create List"
-                action={createNewList}
-            />
-        </div>
+        <BoardViewerBoardContext.Provider value={{ boardId: boardData.id }}>
+            <div className={styles.boardContainer}>
+                {lists.map(list => <BoardViewerList listData={list} />)}
+                <NewItemInput
+                    inputPlaceholder="List Name..."
+                    buttonText="Create List"
+                    action={createNewList}
+                />
+            </div>
+        </BoardViewerBoardContext.Provider>
     )
 }

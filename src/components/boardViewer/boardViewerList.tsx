@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { BoardList, BoardListItem } from "../../models/boardData"
 import { NewItemInput } from "../common/newItemInput"
 import { BoardViewerItem } from "./boardViewerItem"
 import styles from './boardViewerList.module.css'
 import { generateNewId } from "../../utils/generateNewId"
+import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext"
+import { saveBoardList } from "../../api/saveBoardData"
 
 
 export interface BoardViewerListProps {
@@ -12,6 +14,12 @@ export interface BoardViewerListProps {
 
 export const BoardViewerList = ({ listData }: BoardViewerListProps) => {
     const [listItems, setListItems] = useState(listData.items)
+    const { boardId } = useContext(BoardViewerBoardContext)
+
+    if (boardId == null) {
+        throw new Error('No Board ID found in board list.')
+        return
+    }
 
     const createNewItem = (itemTitle: string) => {
         const newItem: BoardListItem = {
@@ -21,18 +29,17 @@ export const BoardViewerList = ({ listData }: BoardViewerListProps) => {
             complete: false
         }
 
-        console.log(newItem, listData)
+        const updatedListItems = [...listItems, newItem]
 
-        setListItems([...listItems, newItem])
+        setListItems(updatedListItems)
+        saveBoardList(boardId, listData.id, updatedListItems)
     }
 
     return (
         <div className={styles.boardListContainer}>
             {listData.title}
             <div className={styles.boardListItemsContainer}>
-                <div className={styles.boardListItems}>
-                    {listItems.map(item => <BoardViewerItem itemData={item} />)}
-                </div>
+                {listItems.map(item => <BoardViewerItem itemData={item} />)}
             </div>
             <NewItemInput
                 inputPlaceholder="Item Name..."

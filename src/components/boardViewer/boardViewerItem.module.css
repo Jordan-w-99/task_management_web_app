@@ -1,0 +1,6 @@
+@import '../../themeColours.module.css';
+
+.boardViewerItem {
+    background-color: var(--light);
+    border-radius: 5px;
+}
