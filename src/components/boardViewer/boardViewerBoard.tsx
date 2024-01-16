@@ -27,10 +27,31 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
         saveBoard(boardData.id, updatedLists)
     }
 
+    const removeList = (listId: string) => {
+        const listIndex = lists.findIndex(list => list.id === listId)
+
+        if (listIndex === -1) {
+            alert(`Error: Item with ID ${listId} Not found in list.`)
+            return
+        }
+
+        const updatedLists = [...lists]
+        updatedLists.splice(listIndex, 1)
+
+        setLists(updatedLists)
+        saveBoard(boardData.id, updatedLists)
+    }
+
     return (
         <BoardViewerBoardContext.Provider value={{ boardId: boardData.id }}>
             <div className={styles.boardContainer}>
-                {lists.map(list => <BoardViewerList key={`board=${boardData.id}-list-${list.id}`} listData={list} />)}
+                {lists.map(list => (
+                    <BoardViewerList
+                        key={`board=${boardData.id}-list-${list.id}`}
+                        listData={list}
+                        removeList={removeList}
+                    />
+                ))}
                 <NewItemInput
                     inputPlaceholder="List Name..."
                     buttonText="Create List"
