@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react"
+import styles from './editableTitle.module.css'
+import { MdCheck } from "react-icons/md"
+import { SquareButton } from "./squareButton"
 
 export interface EditableTitleProps {
     defaultTitle: string
@@ -35,15 +38,18 @@ export const EditableTitle = ({
 
     if (editing) {
         return (
-            <div>
+            <div className={styles.container}>
                 <input defaultValue={listTitle} ref={inputRef} />
-                <button onClick={saveNewTitle}>Save</button>
+                <SquareButton
+                    icon={<MdCheck />}
+                    onClick={saveNewTitle}
+                />
             </div>
         )
     }
 
     return (
-        <div onDoubleClick={startEditing}>
+        <div onDoubleClick={startEditing} className={styles.container}>
             {listTitle}
         </div>
     )
