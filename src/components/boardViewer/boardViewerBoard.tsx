@@ -30,7 +30,7 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
     return (
         <BoardViewerBoardContext.Provider value={{ boardId: boardData.id }}>
             <div className={styles.boardContainer}>
-                {lists.map(list => <BoardViewerList listData={list} />)}
+                {lists.map(list => <BoardViewerList key={`board=${boardData.id}-list-${list.id}`} listData={list} />)}
                 <NewItemInput
                     inputPlaceholder="List Name..."
                     buttonText="Create List"

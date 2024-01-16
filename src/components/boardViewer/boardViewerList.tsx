@@ -1,11 +1,12 @@
 import { useContext, useState } from "react"
 import { BoardList, BoardListItem } from "../../models/boardData"
 import { NewItemInput } from "../common/newItemInput"
-import { BoardViewerItem } from "./boardViewerItem"
+import { BoardViewerListItem } from "./BoardViewerListItem"
 import styles from './boardViewerList.module.css'
 import { generateNewId } from "../../utils/generateNewId"
 import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext"
-import { saveBoardList } from "../../api/saveBoardData"
+import { updateListTitle, saveBoardList } from "../../api/saveBoardData"
+import { EditableTitle } from "../common/editableTitle"
 
 
 export interface BoardViewerListProps {
@@ -14,11 +15,11 @@ export interface BoardViewerListProps {
 
 export const BoardViewerList = ({ listData }: BoardViewerListProps) => {
     const [listItems, setListItems] = useState(listData.items)
+
     const { boardId } = useContext(BoardViewerBoardContext)
 
     if (boardId == null) {
         throw new Error('No Board ID found in board list.')
-        return
     }
 
     const createNewItem = (itemTitle: string) => {
@@ -35,11 +36,18 @@ export const BoardViewerList = ({ listData }: BoardViewerListProps) => {
         saveBoardList(boardId, listData.id, updatedListItems)
     }
 
+    const saveListTitle = (newTitle: string) => {
+        updateListTitle(boardId, listData.id, newTitle)
+    }
+
     return (
         <div className={styles.boardListContainer}>
-            {listData.title}
+            <EditableTitle
+                defaultTitle={listData.title}
+                saveTitle={saveListTitle}
+            />
             <div className={styles.boardListItemsContainer}>
-                {listItems.map(item => <BoardViewerItem itemData={item} />)}
+                {listItems.map(item => <BoardViewerListItem key={`board=${boardId}-list-${listData.id}-item-${item.id}`} itemData={item} listId={listData.id} />)}
             </div>
             <NewItemInput
                 inputPlaceholder="Item Name..."

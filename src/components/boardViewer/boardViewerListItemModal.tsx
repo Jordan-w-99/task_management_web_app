@@ -1,7 +1,7 @@
 import { useState } from "react"
-import styles from './boardViewerItemModal.module.css'
+import styles from './boardViewerListItemModal.module.css'
 
-export const BoardViewerItemModal = () => {
+export const BoardViewerListItemModal = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const openModal = () => {

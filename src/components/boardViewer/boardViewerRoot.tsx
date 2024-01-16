@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom"
-import { GetBoardData } from "../../api/getBoardData"
+import { GetAllBoardData, GetBoard } from "../../api/getBoardData"
 import { BoardViewerBoard } from "./boardViewerBoard"
 import styles from './boardViewerRoot.module.css'
+import { EditableTitle } from "../common/editableTitle"
+import { updateBoardTitle } from "../../api/saveBoardData"
 
 export const BoardViewerRoot = () => {
     const { id } = useParams()
@@ -10,11 +12,18 @@ export const BoardViewerRoot = () => {
         return <></>
     }
 
-    const boardData = GetBoardData(id)
+    const boardData = GetBoard(GetAllBoardData(), id)
+
+    const saveBoardTitle = (newTitle: string) => {
+        updateBoardTitle(id, newTitle)
+    }
 
     return (
         <div className={styles.container}>
-            {boardData.title}
+            <EditableTitle
+                defaultTitle={boardData.title}
+                saveTitle={saveBoardTitle}
+            />
             <BoardViewerBoard boardData={boardData} />
         </div>
     )
