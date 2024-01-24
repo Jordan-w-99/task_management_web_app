@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { BoardData, BoardList } from "../../models/boardData"
+import { BoardData, BoardList, BoardListItem } from "../../models/boardData"
 import { NewItemInput } from "../common/newItemInput"
 import { BoardViewerList } from "./boardViewerList"
 import { generateNewId } from "../../utils/generateNewId"
@@ -13,6 +13,7 @@ export interface BoardViewerBoardProps {
 
 export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
     const [lists, setLists] = useState(boardData.lists)
+    const [draggingListItemData, setDraggingListItemData] = useState<BoardListItem>()
 
     const createNewList = (listTitle: string) => {
         const newList: BoardList = {
@@ -42,8 +43,17 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
         saveBoard(boardData.id, updatedLists)
     }
 
+    const updateDraggingListItemData = (data: BoardListItem) => {
+        setDraggingListItemData(data)
+    }
+
     return (
-        <BoardViewerBoardContext.Provider value={{ boardId: boardData.id }}>
+        <BoardViewerBoardContext.Provider
+            value={{
+                boardId: boardData.id,
+                updateDraggingListItemData
+            }}
+        >
             <div className={styles.boardContainer}>
                 {lists.map(list => (
                     <BoardViewerList
@@ -57,6 +67,9 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
                     buttonText="Create List"
                     action={createNewList}
                 />
+                <div className={styles.cardMoveOverlay}>
+
+                </div>
             </div>
         </BoardViewerBoardContext.Provider>
     )

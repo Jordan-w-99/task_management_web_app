@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styles from './boardViewerListItemModal.module.css'
-import { MdOutlineOpenInNew } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 import { SquareButton } from "../common/squareButton";
 
 export const BoardViewerListItemModal = () => {
@@ -24,7 +24,7 @@ export const BoardViewerListItemModal = () => {
                 <button onClick={closeModal}>Close</button>
             </dialog >
             <SquareButton
-                icon={<MdOutlineOpenInNew />}
+                icon={<MdMenu />}
                 onClick={openModal}
             />
         </>
