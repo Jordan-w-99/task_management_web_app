@@ -1,4 +1,4 @@
-import { CSSProperties, useContext, useEffect, useRef, useState } from "react";
+import { CSSProperties, useContext, useRef, useState } from "react";
 import { updateListItemTitle } from "../../api/saveBoardData";
 import { BoardListItem } from "../../models/boardData";
 import { EditableTitle } from "../common/editableTitle";
@@ -37,33 +37,16 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         updateListItemTitle(boardId, listId, itemData.id, newTitle)
     }
 
-    useEffect(() => {
-        if (isMouseDown && !dragging) {
-            const mouseDownTimer = setTimeout(() => {
-                if (isMouseDown) {
-                    setDragging(true)
+    const startDrag = () => {
+        setDragging(true)
 
-                    const bounds = divRef.current?.getBoundingClientRect()
+        const bounds = divRef.current?.getBoundingClientRect()
 
-                    if (bounds && mousePosition) {
-                        const offset = getBoundsPointOffset(bounds, mousePosition)
+        if (bounds && mousePosition) {
+            const offset = getBoundsPointOffset(bounds, mousePosition)
 
-                        setOriginalOffset({ x: -offset.x, y: -offset.y })
-                    }
-                }
-                else {
-                    setDragging(false)
-                }
-            }, 50)
-            return () => {
-                clearTimeout(mouseDownTimer);
-            };
+            setOriginalOffset({ x: -offset.x, y: -offset.y })
         }
-    }, [isMouseDown, itemData, mousePosition, dragging])
-
-    const mouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        setIsMouseDown(true)
     }
 
     const cancelDrag = () => {
@@ -79,7 +62,7 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
             position: 'absolute',
             top: mousePosition.y + originalOffset.y,
             left: mousePosition.x + originalOffset.x,
-            minWidth: 300
+            minWidth: 290
         }
         : {}
 
@@ -108,11 +91,12 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
             }
             <div
                 className={styles.boardViewerItem}
-                onMouseDown={mouseDown}
                 style={{
                     backgroundColor: bgCol
                 }}
                 ref={divRef}
+                onDragStart={startDrag}
+                draggable
             >
                 <EditableTitle
                     defaultTitle={itemData.title}
