@@ -7,6 +7,7 @@ import styles from './boardViewerBoard.module.css'
 import { saveBoard } from "../../api/saveBoardData"
 import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext"
 import { useMousePosition } from "../../hooks/useMousePosition"
+import { clampNumber } from "../../utils/clampNumber"
 
 export interface BoardViewerBoardProps {
     boardData: BoardData
@@ -97,7 +98,7 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
         saveBoard(boardData.id, updatedLists)
     }
 
-    const addItemToList = (listId: string, item: BoardListItem) => {
+    const addItemToList = (listId: string, item: BoardListItem, insertAtIndex?: number) => {
         const listIndex = boardData.lists.findIndex(list => list.id === listId);
 
         if (listIndex === -1) {
@@ -106,7 +107,14 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
 
         const listItems = boardData.lists[listIndex].items
 
-        const updatedListItems = [...listItems, item]
+        const updatedListItems = [...listItems]
+
+        if (insertAtIndex == null) {
+            updatedListItems.push(item)
+        }
+        else {
+            updatedListItems.splice(clampNumber(insertAtIndex, 0, updatedListItems.length), 0, item)
+        }
 
         const updatedLists = [...boardData.lists]
         updatedLists[listIndex].items = updatedListItems
@@ -120,14 +128,28 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
             return
         }
 
-        const toListId = document.elementsFromPoint(mousePosition.x, mousePosition.y).find(element => element.id.startsWith('list-'))?.id.substring(5, 15)
+        const listElement = document.elementsFromPoint(mousePosition.x, mousePosition.y).find(element => element.id.startsWith('list-'))
 
-        if (toListId == null || toListId === fromListId) {
+        if (listElement == null) {
+            return
+        }
+
+        const listBounds = listElement.getBoundingClientRect()
+        const mouseDistFromTop = mousePosition.y - listBounds.top
+
+        let insertAtIndex = 0
+        if (mouseDistFromTop > 20) {
+            insertAtIndex = Math.floor(mouseDistFromTop / 40) - 1
+        }
+
+        const toListId = listElement.id.substring(5, 15)
+
+        if (toListId == null) {
             return
         }
 
         removeItem(fromListId, item.id)
-        addItemToList(toListId, item)
+        addItemToList(toListId, item, insertAtIndex)
     }
 
     return (
