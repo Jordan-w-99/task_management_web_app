@@ -3,10 +3,14 @@ import { BoardListItem } from "../models/boardData";
 
 export interface IBoardViewerBoardContext {
     boardId?: string
-    updateDraggingListItemData: (data: BoardListItem) => void
+    moveItemToMouseOverList: (item: BoardListItem, fromListId: string) => void
+    createNewItem: (listId: string, title: string) => void
+    removeItem: (listId: string, itemId: string) => void
 }
 
 export const BoardViewerBoardContext = createContext<IBoardViewerBoardContext>({
     boardId: undefined,
-    updateDraggingListItemData: () => { }
+    moveItemToMouseOverList: () => { },
+    createNewItem: () => { },
+    removeItem: () => { },
 })

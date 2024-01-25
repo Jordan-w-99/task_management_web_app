@@ -1,11 +1,10 @@
-import { useContext, useState } from "react"
-import { BoardList, BoardListItem } from "../../models/boardData"
+import { useContext } from "react"
+import { BoardList } from "../../models/boardData"
 import { NewItemInput } from "../common/newItemInput"
 import { BoardViewerListItem } from "./BoardViewerListItem"
 import styles from './boardViewerList.module.css'
-import { generateNewId } from "../../utils/generateNewId"
 import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext"
-import { updateListTitle, saveBoardList } from "../../api/saveBoardData"
+import { updateListTitle } from "../../api/saveBoardData"
 import { EditableTitle } from "../common/editableTitle"
 import { SquareButton } from "../common/squareButton"
 import { MdDelete } from "react-icons/md"
@@ -17,41 +16,10 @@ export interface BoardViewerListProps {
 }
 
 export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) => {
-    const [listItems, setListItems] = useState(listData.items)
-
-    const { boardId } = useContext(BoardViewerBoardContext)
+    const { boardId, createNewItem, removeItem } = useContext(BoardViewerBoardContext)
 
     if (boardId == null) {
         throw new Error('No Board ID found in board list.')
-    }
-
-    const createNewItem = (itemTitle: string) => {
-        const newItem: BoardListItem = {
-            id: generateNewId(),
-            title: itemTitle,
-            description: '',
-            complete: false
-        }
-
-        const updatedListItems = [...listItems, newItem]
-
-        setListItems(updatedListItems)
-        saveBoardList(boardId, listData.id, updatedListItems)
-    }
-
-    const removeItem = (itemId: string) => {
-        const itemIndex = listItems.findIndex(item => item.id === itemId)
-
-        if (itemIndex === -1) {
-            alert(`Error: Item with ID ${itemId} Not found in list.`)
-            return
-        }
-
-        const updatedListItems = [...listItems]
-        updatedListItems.splice(itemIndex, 1)
-
-        setListItems(updatedListItems)
-        saveBoardList(boardId, listData.id, updatedListItems)
     }
 
     const saveListTitle = (newTitle: string) => {
@@ -59,7 +27,10 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
     }
 
     return (
-        <div className={styles.boardListContainer}>
+        <div
+            className={styles.boardListContainer}
+            id={`list-${listData.id}`}
+        >
             <div className={styles.boardListTitle}>
                 <EditableTitle
                     defaultTitle={listData.title}
@@ -71,7 +42,7 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
                 />
             </div>
             <div className={styles.boardListItemsContainer}>
-                {listItems.map(item => (
+                {listData.items.map(item => (
                     <BoardViewerListItem
                         key={`board=${boardId}-list-${listData.id}-item-${item.id}`}
                         itemData={item}
@@ -83,7 +54,7 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
             <NewItemInput
                 inputPlaceholder="Item Name..."
                 buttonText="Create Item"
-                action={createNewItem}
+                action={(title: string) => { createNewItem(listData.id, title) }}
             />
         </div>
     )

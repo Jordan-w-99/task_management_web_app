@@ -14,11 +14,11 @@ import { getBoundsPointOffset } from "../../utils/getBoundsPointOffset";
 export interface BoardViewerItemProps {
     itemData: BoardListItem
     listId: string
-    removeItem: (itemId: string) => void
+    removeItem: (listId: string, itemId: string) => void
 }
 
 export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewerItemProps) => {
-    const { boardId, updateDraggingListItemData } = useContext(BoardViewerBoardContext)
+    const { boardId, moveItemToMouseOverList } = useContext(BoardViewerBoardContext)
 
     const [isMouseDown, setIsMouseDown] = useState(false)
     const [dragging, setDragging] = useState(false)
@@ -38,11 +38,10 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
     }
 
     useEffect(() => {
-        if (isMouseDown) {
+        if (isMouseDown && !dragging) {
             const mouseDownTimer = setTimeout(() => {
                 if (isMouseDown) {
                     setDragging(true)
-                    updateDraggingListItemData(itemData)
 
                     const bounds = divRef.current?.getBoundingClientRect()
 
@@ -60,7 +59,7 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
                 clearTimeout(mouseDownTimer);
             };
         }
-    }, [isMouseDown, itemData, mousePosition, updateDraggingListItemData])
+    }, [isMouseDown, itemData, mousePosition, dragging])
 
     const mouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -68,6 +67,7 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
     }
 
     const cancelDrag = () => {
+        moveItemToMouseOverList(itemData, listId)
         setIsMouseDown(false)
         setDragging(false)
     }
@@ -83,27 +83,47 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         }
         : {}
 
-
     return (
-        <div
-            className={styles.boardViewerItem}
-            onMouseDown={mouseDown}
-            onMouseUp={cancelDrag}
-            style={{
-                backgroundColor: bgCol,
-                ...draggingStyle
-            }}
-            ref={divRef}
-        >
-            <EditableTitle
-                defaultTitle={itemData.title}
-                saveTitle={saveItemTitle}
-            />
-            <SquareButton
-                icon={<MdDelete />}
-                onClick={() => removeItem(itemData.id)}
-            />
-            <BoardViewerListItemModal />
-        </div>
+        <>
+            {
+                dragging &&
+                <div
+                    className={styles.boardViewerItem}
+                    onMouseUp={cancelDrag}
+                    style={{
+                        backgroundColor: bgCol,
+                        ...draggingStyle
+                    }}
+                >
+                    <EditableTitle
+                        defaultTitle={itemData.title}
+                        saveTitle={saveItemTitle}
+                    />
+                    <SquareButton
+                        icon={<MdDelete />}
+                        onClick={() => removeItem(listId, itemData.id)}
+                    />
+                    <BoardViewerListItemModal />
+                </div>
+            }
+            <div
+                className={styles.boardViewerItem}
+                onMouseDown={mouseDown}
+                style={{
+                    backgroundColor: bgCol
+                }}
+                ref={divRef}
+            >
+                <EditableTitle
+                    defaultTitle={itemData.title}
+                    saveTitle={saveItemTitle}
+                />
+                <SquareButton
+                    icon={<MdDelete />}
+                    onClick={() => removeItem(listId, itemData.id)}
+                />
+                <BoardViewerListItemModal />
+            </div>
+        </>
     )
 }
