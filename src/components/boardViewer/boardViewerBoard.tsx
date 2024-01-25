@@ -152,16 +152,58 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
         addItemToList(toListId, item, insertAtIndex)
     }
 
+    const moveList = (listId: string) => {
+        if (mousePosition == null) {
+            return
+        }
+
+        const boardElement = document.elementsFromPoint(mousePosition.x, mousePosition.y).find(element => element.id.startsWith('board-'))
+
+        if (boardElement == null) {
+            return
+        }
+
+        const boardBounds = boardElement.getBoundingClientRect()
+        const mouseDistFromLeft = mousePosition.x - boardBounds.left
+
+        let insertAtIndex = 0
+        if (mouseDistFromLeft > 170) {
+            insertAtIndex = Math.floor(mouseDistFromLeft / 325) - 1
+        }
+
+        const toListId = boardElement.id.substring(6, 16)
+
+        if (toListId == null) {
+            return
+        }
+
+        const updatedLists = [...lists]
+
+        const oldListIndex = updatedLists.findIndex(list => list.id === listId)
+        const listCopy: BoardList = { ...updatedLists[oldListIndex] }
+
+        if (oldListIndex === -1) {
+            return
+        }
+
+        updatedLists.splice(oldListIndex, 1)
+        updatedLists.splice(clampNumber(insertAtIndex, 0, updatedLists.length), 0, listCopy)
+
+        setLists(updatedLists)
+        saveBoard(boardData.id, updatedLists)
+    }
+
     return (
         <BoardViewerBoardContext.Provider
             value={{
                 boardId: boardData.id,
                 moveItemToMouseOverList,
                 createNewItem,
-                removeItem
+                removeItem,
+                moveList
             }}
         >
-            <div className={styles.boardContainer}>
+            <div className={styles.boardContainer} id={`board-${boardData.id}`}>
                 {lists.map(list => (
                     <BoardViewerList
                         key={`board=${boardData.id}-list-${list.id}`}

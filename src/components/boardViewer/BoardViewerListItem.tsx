@@ -19,15 +19,12 @@ export interface BoardViewerItemProps {
 
 export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewerItemProps) => {
     const { boardId, moveItemToMouseOverList } = useContext(BoardViewerBoardContext)
-
-    const [isMouseDown, setIsMouseDown] = useState(false)
-    const [dragging, setDragging] = useState(false)
-
-    const [originalOffset, setOriginalOffset] = useState<Point2D>()
-
     const mousePosition = useMousePosition()
 
-    const bgCol = (isMouseDown && dragging) ? 'red' : 'lightgray'
+    const [dragging, setDragging] = useState(false)
+    const [originalOffset, setOriginalOffset] = useState<Point2D>()
+
+    const divRef = useRef<HTMLDivElement>(null)
 
     const saveItemTitle = (newTitle: string) => {
         if (boardId == null) {
@@ -51,11 +48,8 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
 
     const cancelDrag = () => {
         moveItemToMouseOverList(itemData, listId)
-        setIsMouseDown(false)
         setDragging(false)
     }
-
-    const divRef = useRef<HTMLDivElement>(null)
 
     const draggingStyle: CSSProperties = dragging && mousePosition != null && originalOffset != null
         ? {
@@ -74,7 +68,6 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
                     className={styles.boardViewerItem}
                     onMouseUp={cancelDrag}
                     style={{
-                        backgroundColor: bgCol,
                         ...draggingStyle
                     }}
                 >
@@ -91,9 +84,6 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
             }
             <div
                 className={styles.boardViewerItem}
-                style={{
-                    backgroundColor: bgCol
-                }}
                 ref={divRef}
                 onDragStart={startDrag}
                 draggable

@@ -6,6 +6,7 @@ export interface IBoardViewerBoardContext {
     moveItemToMouseOverList: (item: BoardListItem, fromListId: string) => void
     createNewItem: (listId: string, title: string) => void
     removeItem: (listId: string, itemId: string) => void
+    moveList: (listId: string) => void
 }
 
 export const BoardViewerBoardContext = createContext<IBoardViewerBoardContext>({
@@ -13,4 +14,5 @@ export const BoardViewerBoardContext = createContext<IBoardViewerBoardContext>({
     moveItemToMouseOverList: () => { },
     createNewItem: () => { },
     removeItem: () => { },
+    moveList: () => { }
 })
