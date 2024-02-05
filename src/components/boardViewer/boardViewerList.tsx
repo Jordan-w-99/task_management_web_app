@@ -139,6 +139,9 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
             }
             <div
                 className={`${styles.boardListContainer} ${dragging ? styles.draggingPlaceholder : ''}`}
+                style={{
+                    minHeight: dragging ? listHeight : 'unset'
+                }}
                 id={`list-${listData.id}`}
                 onDragStart={startDrag}
                 draggable

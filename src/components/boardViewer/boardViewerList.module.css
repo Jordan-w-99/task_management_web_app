@@ -10,6 +10,7 @@
     padding: 10px;
     gap: 10px;
     user-select: none;
+    align-self: start;
 }
 
 .draggingPlaceholder {
@@ -23,7 +24,6 @@
 }
 
 .boardListItemsContainer {
-    flex-grow: 1;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
