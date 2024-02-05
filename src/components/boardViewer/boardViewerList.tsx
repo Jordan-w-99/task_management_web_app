@@ -29,7 +29,7 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
     const divRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (dragging) {
+        if (dragging && Math.abs(mousePosition?.dx ?? 0) > 1) {
             if (mousePosition == null) {
                 return
             }
