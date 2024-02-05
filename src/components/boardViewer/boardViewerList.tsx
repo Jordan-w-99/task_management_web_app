@@ -29,14 +29,17 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
     const divRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (dragging && Math.abs(mousePosition?.dx ?? 0) > 1) {
+        if (dragging) {
             if (mousePosition == null) {
                 return
             }
 
-            const boardElement = document.elementsFromPoint(mousePosition.x, mousePosition.y).find(element => element.id.startsWith('board-'))
+            const elems = document.elementsFromPoint(mousePosition.x, mousePosition.y)
 
-            if (boardElement == null) {
+            const boardElement = elems.find(element => element.id.startsWith('board-'))
+            const listOverIds = elems.filter(element => element.id.startsWith('list-')).map(list => list.id.split('-')[1])
+
+            if (boardElement == null || listOverIds.every(listId => listId === listData.id)) {
                 return
             }
 
