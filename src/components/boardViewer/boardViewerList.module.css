@@ -12,6 +12,10 @@
     user-select: none;
 }
 
+.draggingPlaceholder {
+    background-color: lightgray;
+}
+
 .boardListTitle {
     display: flex;
     justify-content: space-between;

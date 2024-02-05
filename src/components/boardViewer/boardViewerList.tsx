@@ -1,4 +1,4 @@
-import { CSSProperties, useContext, useRef, useState } from "react"
+import { CSSProperties, useContext, useEffect, useRef, useState } from "react"
 import { BoardList } from "../../models/boardData"
 import { NewItemInput } from "../common/newItemInput"
 import { BoardViewerListItem } from "./BoardViewerListItem"
@@ -28,6 +28,30 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
 
     const divRef = useRef<HTMLDivElement>(null)
 
+    useEffect(() => {
+        if (dragging) {
+            if (mousePosition == null) {
+                return
+            }
+
+            const boardElement = document.elementsFromPoint(mousePosition.x, mousePosition.y).find(element => element.id.startsWith('board-'))
+
+            if (boardElement == null) {
+                return
+            }
+
+            let insertAtIndex = 0
+            const thisListElement = document.getElementById(`list-${listData.id}`)
+            const listFromLeft = thisListElement?.getBoundingClientRect().left ?? 0
+
+            if (listFromLeft > 160) {
+                insertAtIndex = Math.floor((listFromLeft - 160) / 320) + 1;
+            }
+
+            moveList(listData.id, insertAtIndex)
+        }
+    }, [mousePosition, dragging, listData.id, moveList])
+
     if (boardId == null) {
         throw new Error('No Board ID found in board list.')
     }
@@ -37,22 +61,24 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
     }
 
     const startDrag = () => {
-        console.log("dragging")
-
-        setDragging(true)
-
         const bounds = divRef.current?.getBoundingClientRect()
 
         if (bounds && mousePosition) {
             const offset = getBoundsPointOffset(bounds, mousePosition)
 
+            const elems = document.elementsFromPoint(mousePosition.x, mousePosition.y)
+
+            if (elems.some(elem => elem.id.startsWith('item'))) {
+                return
+            }
+
             setListHeight(bounds.height)
             setOriginalOffset({ x: -offset.x, y: -offset.y })
+            setDragging(true)
         }
     }
 
     const cancelDrag = () => {
-        moveList(listData.id)
         setDragging(false)
     }
 
@@ -65,6 +91,37 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
         }
         : {}
 
+    const listContents = (
+        <>
+            <div className={styles.boardListTitle}>
+                <EditableTitle
+                    defaultTitle={listData.title}
+                    // defaultTitle={listData.id} // For debugging
+                    saveTitle={saveListTitle}
+                />
+                <SquareButton
+                    icon={<MdDelete />}
+                    onClick={() => removeList(listData.id)}
+                />
+            </div>
+            <div className={styles.boardListItemsContainer}>
+                {listData.items.map(item => (
+                    <BoardViewerListItem
+                        key={`board=${boardId}-list-${listData.id}-item-${item.id}`}
+                        itemData={item}
+                        listId={listData.id}
+                        removeItem={removeItem}
+                    />
+                ))}
+            </div>
+            <NewItemInput
+                inputPlaceholder="Item Name..."
+                buttonText="Create Item"
+                action={(title: string) => { createNewItem(listData.id, title) }}
+            />
+        </>
+    )
+
     return (
         <>
             {dragging &&
@@ -74,65 +131,20 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
                     onMouseUp={cancelDrag}
                     style={draggingStyle}
                 >
-                    <div className={styles.boardListTitle}>
-                        <EditableTitle
-                            defaultTitle={listData.title}
-                            saveTitle={saveListTitle}
-                        />
-                        <SquareButton
-                            icon={<MdDelete />}
-                            onClick={() => removeList(listData.id)}
-                        />
-                    </div>
-                    <div className={styles.boardListItemsContainer}>
-                        {listData.items.map(item => (
-                            <BoardViewerListItem
-                                key={`board=${boardId}-list-${listData.id}-item-${item.id}`}
-                                itemData={item}
-                                listId={listData.id}
-                                removeItem={removeItem}
-                            />
-                        ))}
-                    </div>
-                    <NewItemInput
-                        inputPlaceholder="Item Name..."
-                        buttonText="Create Item"
-                        action={(title: string) => { createNewItem(listData.id, title) }}
-                    />
+                    {listContents}
                 </div>
             }
             <div
-                className={styles.boardListContainer}
+                className={`${styles.boardListContainer} ${dragging ? styles.draggingPlaceholder : ''}`}
                 id={`list-${listData.id}`}
                 onDragStart={startDrag}
                 draggable
                 ref={divRef}
             >
-                <div className={styles.boardListTitle}>
-                    <EditableTitle
-                        defaultTitle={listData.title}
-                        saveTitle={saveListTitle}
-                    />
-                    <SquareButton
-                        icon={<MdDelete />}
-                        onClick={() => removeList(listData.id)}
-                    />
-                </div>
-                <div className={styles.boardListItemsContainer}>
-                    {listData.items.map(item => (
-                        <BoardViewerListItem
-                            key={`board=${boardId}-list-${listData.id}-item-${item.id}`}
-                            itemData={item}
-                            listId={listData.id}
-                            removeItem={removeItem}
-                        />
-                    ))}
-                </div>
-                <NewItemInput
-                    inputPlaceholder="Item Name..."
-                    buttonText="Create Item"
-                    action={(title: string) => { createNewItem(listData.id, title) }}
-                />
+                {
+                    !dragging &&
+                    listContents
+                }
             </div>
         </>
     )

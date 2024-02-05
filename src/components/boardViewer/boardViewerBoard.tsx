@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { BoardData, BoardList, BoardListItem } from "../../models/boardData"
 import { NewItemInput } from "../common/newItemInput"
 import { BoardViewerList } from "./boardViewerList"
@@ -47,14 +47,14 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
         saveBoard(boardData.id, updatedLists)
     }
 
-    const createNewItem = (listId: string, itemTitle: string) => {
-        const listIndex = boardData.lists.findIndex(list => list.id === listId);
+    const createNewItem = useCallback((listId: string, itemTitle: string) => {
+        const listIndex = lists.findIndex(list => list.id === listId);
 
         if (listIndex === -1) {
             return
         }
 
-        const listItems = boardData.lists[listIndex].items
+        const listItems = lists[listIndex].items
 
         const newItem: BoardListItem = {
             id: generateNewId(),
@@ -65,21 +65,21 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
 
         const updatedListItems = [...listItems, newItem]
 
-        const updatedLists = [...boardData.lists]
+        const updatedLists = [...lists]
         updatedLists[listIndex].items = updatedListItems
 
         setLists(updatedLists)
         saveBoard(boardData.id, updatedLists)
-    }
+    }, [boardData.id, lists])
 
-    const removeItem = (listId: string, itemId: string) => {
-        const listIndex = boardData.lists.findIndex(list => list.id === listId);
+    const removeItem = useCallback((listId: string, itemId: string) => {
+        const listIndex = lists.findIndex(list => list.id === listId);
 
         if (listIndex === -1) {
             return
         }
 
-        const listItems = boardData.lists[listIndex].items
+        const listItems = lists[listIndex].items
 
         const itemIndex = listItems.findIndex(item => item.id === itemId)
 
@@ -91,21 +91,21 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
         const updatedListItems = [...listItems]
         updatedListItems.splice(itemIndex, 1)
 
-        const updatedLists = [...boardData.lists]
+        const updatedLists = [...lists]
         updatedLists[listIndex].items = updatedListItems
 
         setLists(updatedLists)
         saveBoard(boardData.id, updatedLists)
-    }
+    }, [boardData.id, lists])
 
-    const addItemToList = (listId: string, item: BoardListItem, insertAtIndex?: number) => {
-        const listIndex = boardData.lists.findIndex(list => list.id === listId);
+    const addItemToList = useCallback((listId: string, item: BoardListItem, insertAtIndex?: number) => {
+        const listIndex = lists.findIndex(list => list.id === listId);
 
         if (listIndex === -1) {
             return
         }
 
-        const listItems = boardData.lists[listIndex].items
+        const listItems = lists[listIndex].items
 
         const updatedListItems = [...listItems]
 
@@ -116,14 +116,14 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
             updatedListItems.splice(clampNumber(insertAtIndex, 0, updatedListItems.length), 0, item)
         }
 
-        const updatedLists = [...boardData.lists]
+        const updatedLists = [...lists]
         updatedLists[listIndex].items = updatedListItems
 
         setLists(updatedLists)
         saveBoard(boardData.id, updatedLists)
-    }
+    }, [boardData.id, lists]);
 
-    const moveItemToMouseOverList = (item: BoardListItem, fromListId: string) => {
+    const moveItemToMouseOverList = useCallback((item: BoardListItem, fromListId: string) => {
         if (mousePosition == null) {
             return
         }
@@ -145,38 +145,16 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
         const toListId = listElement.id.substring(5, 15)
 
         if (toListId == null) {
+
+
             return
         }
 
         removeItem(fromListId, item.id)
         addItemToList(toListId, item, insertAtIndex)
-    }
+    }, [mousePosition, removeItem, addItemToList]);
 
-    const moveList = (listId: string) => {
-        if (mousePosition == null) {
-            return
-        }
-
-        const boardElement = document.elementsFromPoint(mousePosition.x, mousePosition.y).find(element => element.id.startsWith('board-'))
-
-        if (boardElement == null) {
-            return
-        }
-
-        const boardBounds = boardElement.getBoundingClientRect()
-        const mouseDistFromLeft = mousePosition.x - boardBounds.left
-
-        let insertAtIndex = 0
-        if (mouseDistFromLeft > 170) {
-            insertAtIndex = Math.floor(mouseDistFromLeft / 325) - 1
-        }
-
-        const toListId = boardElement.id.substring(6, 16)
-
-        if (toListId == null) {
-            return
-        }
-
+    const moveList = useCallback((listId: string, insertAtIndex: number) => {
         const updatedLists = [...lists]
 
         const oldListIndex = updatedLists.findIndex(list => list.id === listId)
@@ -191,17 +169,19 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
 
         setLists(updatedLists)
         saveBoard(boardData.id, updatedLists)
-    }
+    }, [boardData.id, lists]);
+
+    const contextVals = useMemo(() => ({
+        boardId: boardData.id,
+        moveItemToMouseOverList,
+        createNewItem,
+        removeItem,
+        moveList
+    }), [boardData.id, moveItemToMouseOverList, createNewItem, removeItem, moveList])
 
     return (
         <BoardViewerBoardContext.Provider
-            value={{
-                boardId: boardData.id,
-                moveItemToMouseOverList,
-                createNewItem,
-                removeItem,
-                moveList
-            }}
+            value={contextVals}
         >
             <div className={styles.boardContainer} id={`board-${boardData.id}`}>
                 {lists.map(list => (

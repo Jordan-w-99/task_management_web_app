@@ -83,6 +83,7 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
                 </div>
             }
             <div
+                id={`item-${listId}-${itemData.id}`}
                 className={styles.boardViewerItem}
                 ref={divRef}
                 onDragStart={startDrag}
