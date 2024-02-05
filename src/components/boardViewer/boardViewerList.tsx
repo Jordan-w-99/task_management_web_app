@@ -42,10 +42,10 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
 
             let insertAtIndex = 0
             const thisListElement = document.getElementById(`list-${listData.id}`)
-            const listFromLeft = thisListElement?.getBoundingClientRect().left ?? 0
+            const listFromLeft = thisListElement?.getBoundingClientRect().x ?? 0
 
             if (listFromLeft > 160) {
-                insertAtIndex = Math.floor((listFromLeft - 160) / 320) + 1;
+                insertAtIndex = Math.floor((listFromLeft - 160 + boardElement.scrollLeft) / 320) + 1;
             }
 
             moveList(listData.id, insertAtIndex)
