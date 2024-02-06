@@ -85,12 +85,16 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
         setDragging(false)
     }
 
+    const DRAG_HEIGHT_ADJUST = 20
+    const adjustedListHeight = listHeight ? listHeight - DRAG_HEIGHT_ADJUST : undefined
+
     const draggingStyle: CSSProperties = dragging && mousePosition != null && originalOffset != null
         ? {
             position: 'absolute',
             top: mousePosition.y + originalOffset.y,
             left: mousePosition.x + originalOffset.x,
-            minHeight: listHeight
+            minHeight: adjustedListHeight,
+            maxHeight: adjustedListHeight
         }
         : {}
 
@@ -140,7 +144,8 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
             <div
                 className={`${styles.boardListContainer} ${dragging ? styles.draggingPlaceholder : ''}`}
                 style={{
-                    minHeight: dragging ? listHeight : 'unset'
+                    minHeight: dragging ? adjustedListHeight : 'unset',
+                    maxHeight: dragging ? adjustedListHeight : undefined
                 }}
                 id={`list-${listData.id}`}
                 onDragStart={startDrag}
