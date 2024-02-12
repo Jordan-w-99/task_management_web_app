@@ -42,6 +42,9 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         if (bounds && mousePosition) {
             const offset = getBoundsPointOffset(bounds, mousePosition)
 
+            // const containerOffset = document.elementsFromPoint(mousePosition.x, mousePosition.y).filter(elem => elem.id.startsWith('list-'))[0].getBoundingClientRect()
+
+            // setOriginalOffset({ x: -offset.x - containerOffset.x, y: -offset.y - containerOffset.y })
             setOriginalOffset({ x: -offset.x, y: -offset.y })
         }
     }
@@ -51,12 +54,17 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         setDragging(false)
     }
 
+    // if (dragging && mousePosition != null && originalOffset != null) {
+    //     console.log(mousePosition, originalOffset, mousePosition.x - originalOffset.x, mousePosition.y - originalOffset.y,)
+    // }
+
     const draggingStyle: CSSProperties = dragging && mousePosition != null && originalOffset != null
         ? {
             position: 'absolute',
             top: mousePosition.y + originalOffset.y,
             left: mousePosition.x + originalOffset.x,
-            minWidth: 290
+            minWidth: 290,
+            zIndex: 999
         }
         : {}
 

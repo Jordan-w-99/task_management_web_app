@@ -1,7 +1,9 @@
 :root {
     --accent: #F17105;
     --lightest: #b0c0bc;
-    --light: #A7A7A9;
-    --mid: #797270;
+    --lightestRgbVals: 176, 192, 188;
+    --light: #c1c1c4;
+    --mid: #999493;
+    --midRgbVals: 153, 148, 147;
     --dark: #453F3C;
 }

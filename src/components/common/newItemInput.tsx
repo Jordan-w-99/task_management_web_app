@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import styles from "./newItemInput.module.css"
 
 export interface NewItemInputProps {
     inputPlaceholder: string
@@ -20,7 +21,7 @@ export const NewItemInput = ({ inputPlaceholder, buttonText, action }: NewItemIn
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             <input
                 type="text"
                 placeholder={inputPlaceholder}

@@ -3,7 +3,8 @@
 .boardListContainer {
     min-width: 300px;
     max-width: 300px;
-    background-color: var(--mid);
+    background-color: rgba(var(--midRgbVals), 0.7);
+    /* backdrop-filter: blur(3px); */
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -18,7 +19,8 @@
 }
 
 .draggingPlaceholder {
-    background-color: lightgray;
+    background-color: rgba(var(--lightestRgbVals), 0.7);
+    /* backdrop-filter: unset; */
 }
 
 .boardListTitle {
