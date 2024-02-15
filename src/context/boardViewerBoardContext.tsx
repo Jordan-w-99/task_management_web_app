@@ -1,9 +1,16 @@
 import { createContext } from "react";
-import { BoardListItem } from "../models/boardData";
+import { Point2D } from "../models/point2D";
+
+export interface IDraggingItem {
+    itemId: string
+    originalOffset: Point2D
+}
 
 export interface IBoardViewerBoardContext {
     boardId?: string
-    moveItemToMouseOverList: (item: BoardListItem, fromListId: string) => void
+    draggingItem?: IDraggingItem
+    setDraggingItem: (draggingItem?: IDraggingItem) => void
+    moveItem: (itemId: string, fromListId: string, toListId: string, insertAtIndex: number) => void
     createNewItem: (listId: string, title: string) => void
     removeItem: (listId: string, itemId: string) => void
     moveList: (listId: string, insertAtIndex: number) => void
@@ -11,7 +18,9 @@ export interface IBoardViewerBoardContext {
 
 export const BoardViewerBoardContext = createContext<IBoardViewerBoardContext>({
     boardId: undefined,
-    moveItemToMouseOverList: () => { },
+    draggingItem: undefined,
+    setDraggingItem: () => { },
+    moveItem: () => { },
     createNewItem: () => { },
     removeItem: () => { },
     moveList: () => { }
