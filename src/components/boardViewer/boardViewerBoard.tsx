@@ -165,7 +165,6 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
                 ))}
                 <NewItemInput
                     inputPlaceholder="List Name..."
-                    buttonText="Create List"
                     action={createNewList}
                 />
                 <div className={styles.cardMoveOverlay}>

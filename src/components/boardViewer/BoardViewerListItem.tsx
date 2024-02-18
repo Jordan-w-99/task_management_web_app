@@ -90,6 +90,17 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         setDraggingItem(undefined)
     }
 
+    // const [cssHeight, setCssHeight] = useState(0)
+
+    // useEffect(() => {
+    //     setTimeout(() => setCssHeight(40), 0)
+    // }, [])
+
+    // const mainStyle: CSSProperties = {
+    //     height: cssHeight,
+    //     minHeight: cssHeight
+    // }
+
     const draggingStyle: CSSProperties = dragging && mousePosition != null && originalOffset != null
         ? {
             position: 'absolute',

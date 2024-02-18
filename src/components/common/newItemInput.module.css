@@ -1,8 +1,53 @@
+@import url('../../globalVariables.module.css');
+
 .container {
     display: flex;
     max-height: 40px;
+    width: 100%;
+    justify-content: end;
 }
 
-.container button {}
+.container button {
+    border: 0px;
+    padding: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    min-width: 50px;
+    height: 40px;
+}
 
-.container input {}
+.container button:hover {
+    border: 0px;
+}
+
+.container button:active {
+    outline: none;
+}
+
+.container button:focus {
+    outline: none;
+}
+
+.confirmButton {}
+
+.addButton {
+    min-width: 45px !important;
+    padding-right: 5px !important;
+}
+
+.container input {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: none;
+    padding: 0;
+    padding-left: 5px;
+}
+
+.container input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--accent) !important;
+    margin-bottom: -1px;
+    box-shadow: inset 0 0 2px 1px lightgray;
+}

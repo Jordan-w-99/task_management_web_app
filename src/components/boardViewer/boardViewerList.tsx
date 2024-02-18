@@ -27,6 +27,7 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
     const [listHeight, setListHeight] = useState<number>()
 
     const divRef = useRef<HTMLDivElement>(null)
+    const listDivRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (dragging) {
@@ -111,7 +112,7 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
                     onClick={() => removeList(listData.id)}
                 />
             </div>
-            <div className={styles.boardListItemsContainer}>
+            <div className={styles.boardListItemsContainer} ref={listDivRef}>
                 {listData.items.map(item => (
                     <BoardViewerListItem
                         key={`board=${boardId}-list-${listData.id}-item-${item.id}`}
@@ -123,8 +124,9 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
             </div>
             <NewItemInput
                 inputPlaceholder="Item Name..."
-                buttonText="Create Item"
-                action={(title: string) => { createNewItem(listData.id, title) }}
+                action={(title: string) => {
+                    createNewItem(listData.id, title)
+                }}
             />
         </>
     )
