@@ -6,9 +6,9 @@
     height: 250px;
     display: flex;
     flex-direction: column;
-    box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
     font-family: "Handlee", cursive;
     font-size: 24pt;
+    transition: rotate 150ms, scale 100ms, box-shadow 200ms;
 }
 
 .noteTop {
