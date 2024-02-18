@@ -1,7 +1,13 @@
 @import '../../themeColours.module.css';
 
 .container {
+    background-image: url('../../assets/cork-board.jpg');
+    justify-content: flex-start;
     border-radius: 10px;
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
 }

@@ -20,10 +20,12 @@ export const BoardViewerRoot = () => {
 
     return (
         <div className={styles.container}>
-            <EditableTitle
-                defaultTitle={boardData.title}
-                saveTitle={saveBoardTitle}
-            />
+            <div className={styles.titleContainer}>
+                <EditableTitle
+                    defaultTitle={boardData.title}
+                    saveTitle={saveBoardTitle}
+                />
+            </div>
             <BoardViewerBoard boardData={boardData} />
         </div>
     )

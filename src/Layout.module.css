@@ -6,4 +6,5 @@
     background-color: var(--lightest);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }

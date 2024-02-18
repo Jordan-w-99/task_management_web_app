@@ -39,7 +39,7 @@ export const EditableTitle = ({
     if (editing) {
         return (
             <div className={styles.container}>
-                <input defaultValue={listTitle} ref={inputRef} />
+                <input defaultValue={listTitle} ref={inputRef} size={1} />
                 <SquareButton
                     icon={<MdCheck />}
                     onClick={saveNewTitle}

@@ -4,3 +4,17 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.container input {
+    outline: none;
+    border: none;
+    font-size: inherit;
+    flex-grow: 1;
+    font-weight: inherit;
+}
+
+.container input:focus {
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+}

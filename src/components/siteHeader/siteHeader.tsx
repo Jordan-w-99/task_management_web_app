@@ -6,7 +6,11 @@ export const SiteHeader = (): React.JSX.Element => {
     return (
         <div className={styles.siteHeader}>
             <nav>
-                <Link to='/'>Home</Link>
+                <Link to='/'>
+                    <button className={styles.linkBtn}>
+                        Boards
+                    </button>
+                </Link>
             </nav>
         </div>
     )

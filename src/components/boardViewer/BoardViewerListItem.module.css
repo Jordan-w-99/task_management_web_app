@@ -10,7 +10,7 @@
     box-sizing: border-box;
     /* transition: height 100ms, min-height 100ms; */
     /* overflow: hidden; */
-    padding: 5px;
+    padding: 10px;
     min-height: 40px;
     max-height: 40px;
 }

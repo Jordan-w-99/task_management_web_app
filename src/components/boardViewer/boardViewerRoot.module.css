@@ -8,3 +8,15 @@
     flex-grow: 1;
     max-height: calc(100% - var(--headerHeight));
 }
+
+.titleContainer {
+    color: white;
+    font-size: xx-large;
+    font-weight: bolder;
+    left: 10px;
+    top: 0;
+    position: absolute;
+    display: flex;
+    min-width: 300px;
+    min-height: var(--headerHeight);
+}

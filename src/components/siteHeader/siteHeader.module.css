@@ -1,7 +1,33 @@
 @import '../../themeColours.module.css';
 
 .siteHeader {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    box-sizing: border-box;
+    padding-right: 10px;
     background-color: var(--dark);
     width: 100vw;
     height: 50px;
+    min-height: 50px;
+    max-height: 50px;
+}
+
+.linkBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--mid);
+    height: 35px;
+    aspect-ratio: 3;
+    border-radius: 5px;
+    color: white;
+}
+
+.linkBtn:active {
+    background-color: #918987;
+}
+
+.linkBtn:hover {
+    background-color: #a5a19f;
 }

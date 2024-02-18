@@ -108,7 +108,7 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
                     saveTitle={saveListTitle}
                 />
                 <SquareButton
-                    icon={<MdDelete />}
+                    icon={<MdDelete size={16} />}
                     onClick={() => removeList(listData.id)}
                 />
             </div>
