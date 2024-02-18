@@ -6,3 +6,9 @@
     gap: 10px;
     overflow-x: auto;
 }
+
+.newListContainer {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 250px;
+}

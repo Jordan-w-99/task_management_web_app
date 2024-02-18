@@ -163,10 +163,12 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
                         removeList={removeList}
                     />
                 ))}
-                <NewItemInput
-                    inputPlaceholder="List Name..."
-                    action={createNewList}
-                />
+                <div className={styles.newListContainer}>
+                    <NewItemInput
+                        inputPlaceholder="List Name..."
+                        action={createNewList}
+                    />
+                </div>
                 <div className={styles.cardMoveOverlay}>
 
                 </div>
