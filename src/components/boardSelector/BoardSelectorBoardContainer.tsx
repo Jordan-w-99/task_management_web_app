@@ -22,20 +22,18 @@ export const BoardSelectorBoardContainer = () => {
     }
 
     return (
-        <>
-            <div className={styles.container}>
-                {
-                    boards.map(board =>
-                        <BoardSelectorBoard details={board} />
-                    )
-                }
-                <div>
-                    <NewItemInput
-                        inputPlaceholder='Board name...'
-                        action={createNewBoard}
-                    />
-                </div>
+        <div className={styles.container}>
+            {
+                boards.map(board =>
+                    <BoardSelectorBoard details={board} />
+                )
+            }
+            <div>
+                <NewItemInput
+                    inputPlaceholder='Board name...'
+                    action={createNewBoard}
+                />
             </div>
-        </>
+        </div>
     )
 }
