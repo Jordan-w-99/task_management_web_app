@@ -26,11 +26,13 @@
     box-shadow: -2px 2px 15px 0 rgba(0, 0, 0, 0.5);
     background-color: rgba(0, 0, 0, 0.25);
     content: '';
-    width: 90%;
+    width: 89%;
     left: 5px;
-    height: 83%;
+    height: 93%;
     position: absolute;
-    top: 30%;
+    top: 15%;
+    rotate: -1deg;
+    translate: 10px -20px;
 }
 
 /* The sticky note itself */
@@ -46,21 +48,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Kalam', cursive;
-    font-size: 1rem;
+    font-family: "Handlee", cursive;
+    font-size: 1.3rem;
     color: black;
     overflow: visible;
+    translate: 10px -20px;
 }
 
 /* Add responsiveness */
-@media screen and (min-width: 640px) {
+/* @media screen and (min-width: 640px) {
     .sticky:before {
         height: 79%;
         width: 90%;
     }
 
     .stickyContent {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 }
 
@@ -71,7 +74,7 @@
     }
 
     .stickyContent {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 }
 
@@ -82,6 +85,6 @@
     }
 
     .stickyContent {
-        font-size: 1.875rem;
+        font-size: 1.5rem;
     }
-}
+} */

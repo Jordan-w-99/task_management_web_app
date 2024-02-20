@@ -1,12 +1,13 @@
 @import '../../globalVariables.module.css';
 
 .container {
-    background-image: url('../../assets/bridge.jpg');
+    background-image: url('../../assets/cat1.jpg');
     background-size: cover;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     max-height: calc(100% - var(--headerHeight));
+    margin-top: var(--headerHeight);
 }
 
 .titleContainer {
@@ -19,4 +20,5 @@
     display: flex;
     min-width: 300px;
     min-height: var(--headerHeight);
+    z-index: 100;
 }

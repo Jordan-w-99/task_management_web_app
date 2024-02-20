@@ -43,9 +43,11 @@ export const StickyNote = ({ boardId, text, hueRotation, rotation }: StickyNoteP
                     <div className={styles.stickyContent} style={{ filter: `hue-rotate(${hueRotation ?? 0}deg)`, clipPath: `url(#stickyClip-${boardId})` }}>
                         <div
                             style={{
-                                rotate: hovered ? '-2deg' : '-1deg',
+                                rotate: hovered ? '-1deg' : '-1deg',
                                 translate: hovered ? '-2px -2px' : '0',
                                 transform: hovered ? 'skew(7deg)' : '',
+                                scale: hovered ? '95%' : '',
+                                // transition: 'all 200ms'
                             }}
                         >{text}</div>
                     </div>

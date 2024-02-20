@@ -28,7 +28,7 @@ export const BoardSelectorBoardContainer = () => {
                     <BoardSelectorBoard details={board} />
                 )
             }
-            <div>
+            <div className={styles.newItem}>
                 <NewItemInput
                     inputPlaceholder='Board name...'
                     action={createNewBoard}

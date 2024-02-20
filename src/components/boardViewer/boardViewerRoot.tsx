@@ -4,6 +4,7 @@ import { BoardViewerBoard } from "./boardViewerBoard"
 import styles from './boardViewerRoot.module.css'
 import { EditableTitle } from "../common/editableTitle"
 import { updateBoardTitle } from "../../api/saveBoardData"
+import { SiteHeader } from "../siteHeader/siteHeader"
 
 export const BoardViewerRoot = () => {
     const { id } = useParams()
@@ -19,14 +20,17 @@ export const BoardViewerRoot = () => {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.titleContainer}>
-                <EditableTitle
-                    defaultTitle={boardData.title}
-                    saveTitle={saveBoardTitle}
-                />
+        <>
+            <SiteHeader />
+            <div className={styles.container}>
+                <div className={styles.titleContainer}>
+                    <EditableTitle
+                        defaultTitle={boardData.title}
+                        saveTitle={saveBoardTitle}
+                    />
+                </div>
+                <BoardViewerBoard boardData={boardData} />
             </div>
-            <BoardViewerBoard boardData={boardData} />
-        </div>
+        </>
     )
 }

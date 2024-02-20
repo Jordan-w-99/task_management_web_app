@@ -169,9 +169,6 @@ export const BoardViewerBoard = ({ boardData }: BoardViewerBoardProps) => {
                         action={createNewList}
                     />
                 </div>
-                <div className={styles.cardMoveOverlay}>
-
-                </div>
             </div>
         </BoardViewerBoardContext.Provider>
     )

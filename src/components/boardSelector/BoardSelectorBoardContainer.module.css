@@ -1,13 +1,23 @@
 @import '../../themeColours.module.css';
+@import '../../globalVariables.module.css';
 
 .container {
     background-image: url('../../assets/cork-board.jpg');
+    background-attachment: local;
+    background-repeat: repeat-y;
     justify-content: center;
-    border-radius: 10px;
+    box-shadow: inset 0 0 60px 30px #00000066;
     display: flex;
     flex-wrap: wrap;
     gap: 50px;
-    padding: 20px;
+    padding: 30px;
     overflow-y: auto;
     flex-grow: 1;
+}
+
+.newItem {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 300px;
 }

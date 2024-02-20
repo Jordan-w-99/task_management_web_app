@@ -1,16 +1,21 @@
 @import '../../themeColours.module.css';
+@import '../../globalVariables.module.css';
 
 .siteHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: end;
     align-items: center;
     box-sizing: border-box;
     padding-right: 10px;
-    background-color: var(--dark);
+    background-color: rgba(var(--darkRgbVals), 0.5);
     width: 100vw;
-    height: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    height: var(--headerHeight);
+    min-height: var(--headerHeight);
+    max-height: var(--headerHeight);
+    z-index: 99;
 }
 
 .linkBtn {
