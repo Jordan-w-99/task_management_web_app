@@ -21,6 +21,18 @@ export const uploadNewBoard = (newBoard: BoardDetails): void => {
     localStorage.setItem('savedBoards', JSON.stringify([...data, newBoardData]))
 }
 
+export const removeSavedBoard = (boardId: string) => {
+    const savedBoardsJSONString = localStorage.getItem('savedBoards')
+
+    if (savedBoardsJSONString == null || savedBoardsJSONString.trim() === '') {
+        return
+    }
+
+    const data: BoardData[] = JSON.parse(savedBoardsJSONString)
+
+    localStorage.setItem('savedBoards', JSON.stringify(data.filter(d => d.id !== boardId)))
+}
+
 export const saveBoard = (boardId: string, updatedLists: BoardList[]) => {
     const data = GetAllBoardData()
 

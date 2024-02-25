@@ -4,7 +4,7 @@ import { BoardDetails } from "../../models/boardDetails"
 import { useState } from "react"
 import { GetBoards } from "../../api/getBoardData"
 import { generateNewId } from "../../utils/generateNewId"
-import { uploadNewBoard } from "../../api/saveBoardData"
+import { removeSavedBoard, uploadNewBoard } from "../../api/saveBoardData"
 import { NewItemInput } from "../common/newItemInput"
 
 export const BoardSelectorBoardContainer = () => {
@@ -21,11 +21,17 @@ export const BoardSelectorBoardContainer = () => {
         setBoards(GetBoards())
     }
 
+    const removeBoard = (id: string): void => {
+        const updatedBoards = [...boards.filter(b => b.id !== id)]
+        setBoards(updatedBoards)
+        removeSavedBoard(id)
+    }
+
     return (
         <div className={styles.container}>
             {
                 boards.map(board =>
-                    <BoardSelectorBoard details={board} />
+                    <BoardSelectorBoard details={board} removeBoard={removeBoard} />
                 )
             }
             <div className={styles.newItem}>

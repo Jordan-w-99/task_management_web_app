@@ -2,6 +2,7 @@
 .stickyContainer {
     min-width: 270px;
     max-width: 270px;
+    max-height: 270px;
     position: relative;
 }
 

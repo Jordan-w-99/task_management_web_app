@@ -1,14 +1,15 @@
-import { Link } from 'react-router-dom'
 import { BoardDetails } from '../../models/boardDetails'
-import styles from './BoardSelectorBoard.module.css'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { StickyNote } from './StickyNote'
+import { SquareButton } from '../common/squareButton'
+import { FaTrash } from 'react-icons/fa'
 
 export interface BoardSelectorBoardProps {
     details: BoardDetails
+    removeBoard: (id: string) => void
 }
 
-export const BoardSelectorBoard = ({ details }: BoardSelectorBoardProps) => {
+export const BoardSelectorBoard = ({ details, removeBoard }: BoardSelectorBoardProps) => {
     const idNumberSum = useMemo(() => (details.id.split('').reduce((sum, char) => {
         if (Number.isNaN(Number.parseInt(char))) {
             return sum;
@@ -28,29 +29,22 @@ export const BoardSelectorBoard = ({ details }: BoardSelectorBoardProps) => {
 
 
     return (
-        <Link to={`board/${details.id}`}>
-            {/* <div
-                className={styles.container}
-                style={{
-                    rotate: `${hovered ? 0 : rotationFromId}deg`,
-                    scale: `${hovered ? 1.05 : 1}`,
-                    boxShadow: `${hovered ? '5px 5px 8px rgba(33, 33, 33, .6)' : '5px 5px 7px rgba(33, 33, 33, .7)'}`,
-                }}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-            >
-                <div className={styles.noteTop} style={{ backgroundColor: secondaryColors[colourIdxFromId] }} />
-                <div className={styles.noteBottom} style={{ backgroundColor: mainColors[colourIdxFromId] }}>
-                    <p className={styles.boardName}>{details.title}</p>
-                </div>
-            </div> */}
-            <StickyNote
-                boardId={details.id}
-                text={details.title}
-                hueRotation={hueRotations[colourIdxFromId]}
-                rotation={rotationFromId}
-            // hovered={hovered}
-            />
-        </Link>
+        <StickyNote
+            boardId={details.id}
+            text={details.title}
+            hueRotation={hueRotations[colourIdxFromId]}
+            rotation={rotationFromId}
+            buttonRight={
+                <SquareButton
+                    onClick={() => {
+                        removeBoard(details.id)
+                    }}
+                    icon={<FaTrash />}
+                    style={{
+                        opacity: 0.2
+                    }}
+                />
+            }
+        />
     )
 }
