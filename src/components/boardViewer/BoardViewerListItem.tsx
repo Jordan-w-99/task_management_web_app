@@ -1,7 +1,7 @@
 import { CSSProperties, useContext, useEffect, useMemo, useRef } from "react";
 import { updateListItemCompleteStatus, updateListItemTitle } from "../../api/saveBoardData";
 import { BoardListItem } from "../../models/boardData";
-import styles from "./boardViewerListItem.module.css"
+import styles from "./BoardViewerListItem.module.css"
 import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext";
 import { useMousePosition } from "../../hooks/useMousePosition";
 import { getBoundsPointOffset } from "../../utils/getBoundsPointOffset";
