@@ -47,8 +47,16 @@
     justify-content: center;
     align-items: center;
     font-family: "Handlee", cursive;
-    font-size: 1.3rem;
+    font-size: 1rem;
     color: black;
     overflow: visible;
     translate: 3px -20px;
+    gap: 10px;
+}
+
+/* Create a custom checkbox */
+.itemCheckbox {
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
 }

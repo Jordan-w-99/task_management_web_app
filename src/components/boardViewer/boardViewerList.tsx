@@ -126,7 +126,6 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
                     />
                 ))}
             </div>
-            <div className={styles.divider} />
             <div style={{ marginTop: 5 }}>
                 <NewItemInput
                     inputPlaceholder="Item Name..."

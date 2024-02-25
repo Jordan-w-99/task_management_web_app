@@ -65,3 +65,12 @@ export const updateListItemTitle = (boardId: string, listId: string, itemId: str
 
     localStorage.setItem('savedBoards', JSON.stringify(data))
 }
+
+export const updateListItemCompleteStatus = (boardId: string, listId: string, itemId: string, complete: boolean) => {
+    const data = GetAllBoardData()
+
+    const itemToUpdate = GetListItem(data, boardId, listId, itemId)
+    itemToUpdate.complete = complete;
+
+    localStorage.setItem('savedBoards', JSON.stringify(data))
+}

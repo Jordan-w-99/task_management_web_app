@@ -1,5 +1,5 @@
 import { CSSProperties, useContext, useEffect, useMemo, useRef } from "react";
-import { updateListItemTitle } from "../../api/saveBoardData";
+import { updateListItemCompleteStatus, updateListItemTitle } from "../../api/saveBoardData";
 import { BoardListItem } from "../../models/boardData";
 import styles from "./boardViewerListItem.module.css"
 import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext";
@@ -28,6 +28,14 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         }
 
         updateListItemTitle(boardId, listId, itemData.id, newTitle)
+    }
+
+    const updateItemComplete = (complete: boolean) => {
+        if (boardId == null) {
+            throw new Error("Cannot Save Title, Board ID not found.")
+        }
+
+        updateListItemCompleteStatus(boardId, listId, itemData.id, complete)
     }
 
     useEffect(() => {
@@ -110,10 +118,12 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         <StickyTag
             itemId={itemData.id}
             text={itemData.title}
+            complete={itemData.complete}
             hueRotation={hueRotations[colourIdxFromId]}
             rotation={rotationFromId}
             updateTitle={saveItemTitle}
             removeItem={() => removeItem(listId, itemData.id)}
+            updateItemComplete={updateItemComplete}
         />
     </>
 

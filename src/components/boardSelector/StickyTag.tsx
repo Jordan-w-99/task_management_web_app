@@ -7,13 +7,15 @@ import { MdDelete } from 'react-icons/md'
 export interface StickyTagProps {
     itemId: string
     text: string
+    complete: boolean
     hueRotation?: number
     rotation?: number
     updateTitle: (title: string) => void
     removeItem: () => void
+    updateItemComplete: (complete: boolean) => void
 }
 
-export const StickyTag = ({ itemId, text, hueRotation, updateTitle, removeItem }: StickyTagProps) => {
+export const StickyTag = ({ itemId, text, complete, hueRotation, updateTitle, removeItem, updateItemComplete }: StickyTagProps) => {
     const [hovered, setHovered] = useState(false)
 
     const normalPath = "M 0 0.1 L 0 0.9 Q 0.8 0.92, 1 0.88 L 1 0.08 Q 0.8 0.12, 0 0.1";
@@ -53,9 +55,11 @@ export const StickyTag = ({ itemId, text, hueRotation, updateTitle, removeItem }
                                 transform: hovered ? 'skew(5deg)' : '',
                                 // scale: hovered ? '95%' : '',
                                 width: '90%',
-                                display: 'flex'
+                                display: 'flex',
+                                gap: 5
                             }}
                         >
+                            <input className={styles.itemCheckbox} type='checkbox' defaultChecked={complete} onChange={(e) => updateItemComplete(e.target.checked)} />
                             <EditableTitle
                                 defaultTitle={text}
                                 saveTitle={updateTitle}
