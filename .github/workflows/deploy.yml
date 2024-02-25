@@ -35,8 +35,6 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - name: Switch to project dir
-        run: cd task_management_web_app
       - name: Install dependencies
         run: npm install
       - name: Build
