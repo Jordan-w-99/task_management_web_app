@@ -6,11 +6,15 @@ import { SquareButton } from "./squareButton"
 export interface EditableTitleProps {
     defaultTitle: string
     saveTitle: (newTitle: string) => void
+    textClassName?: string
+    centerText?: boolean
 }
 
 export const EditableTitle = ({
     defaultTitle,
-    saveTitle
+    saveTitle,
+    textClassName = '',
+    centerText = false
 }: EditableTitleProps) => {
     const [listTitle, setListTitle] = useState(defaultTitle)
 
@@ -49,8 +53,10 @@ export const EditableTitle = ({
     }
 
     return (
-        <div onDoubleClick={startEditing} className={styles.container}>
-            {listTitle}
+        <div onDoubleClick={startEditing} className={styles.container} style={{ justifyContent: centerText ? 'center' : 'space-between' }}>
+            <div className={textClassName}>
+                {listTitle}
+            </div>
         </div>
     )
 }

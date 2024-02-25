@@ -1,14 +1,14 @@
 @import '../../themeColours.module.css';
 
 .paperHeader {
-    background-color: #462719;
-    min-height: 40px;
-    max-height: 40px;
+    background-color: #e2d8cd;
+    min-height: 50px;
+    max-height: 50px;
     margin: -15px;
     margin-bottom: 10px;
-    background-image: url('../../assets/listHeader.jpg');
-    filter: brightness(0.85);
-    border-bottom: 1px solid rgba(54, 54, 54, 0.521);
+    /* background-image: url('../../assets/listHeader.jpg'); */
+    /* filter: brightness(0.85); */
+    /* border-bottom: 1px solid rgba(54, 54, 54, 0.521); */
 }
 
 .boardListContainer {

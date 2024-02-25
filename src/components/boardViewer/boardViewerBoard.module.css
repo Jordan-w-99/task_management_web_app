@@ -1,8 +1,11 @@
 .boardContainer {
+    background-image: url('../../assets/cork-board.jpg');
+    background-attachment: local;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
     padding: 10px;
+    padding-top: 20px;
     gap: 10px;
     overflow-x: auto;
 }
