@@ -1,14 +1,11 @@
-import { CSSProperties, useContext, useEffect, useRef } from "react";
+import { CSSProperties, useContext, useEffect, useMemo, useRef } from "react";
 import { updateListItemTitle } from "../../api/saveBoardData";
 import { BoardListItem } from "../../models/boardData";
-import { EditableTitle } from "../common/editableTitle";
 import styles from "./boardViewerListItem.module.css"
-import { BoardViewerListItemModal } from "./boardViewerListItemModal";
 import { BoardViewerBoardContext } from "../../context/boardViewerBoardContext";
-import { SquareButton } from "../common/squareButton";
-import { MdDelete } from "react-icons/md";
 import { useMousePosition } from "../../hooks/useMousePosition";
 import { getBoundsPointOffset } from "../../utils/getBoundsPointOffset";
+import { StickyTag } from "../boardSelector/StickyTag";
 
 export interface BoardViewerItemProps {
     itemData: BoardListItem
@@ -19,9 +16,6 @@ export interface BoardViewerItemProps {
 export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewerItemProps) => {
     const { boardId, moveItem, setDraggingItem, draggingItem } = useContext(BoardViewerBoardContext)
     const mousePosition = useMousePosition()
-
-    // const [dragging, setDragging] = useState(false)
-    // const [originalOffset, setOriginalOffset] = useState<Point2D>()
 
     const dragging = draggingItem?.itemId === itemData.id;
     const originalOffset = draggingItem?.originalOffset;
@@ -60,7 +54,7 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
             const listBounds = listElement.getBoundingClientRect()
             const mouseDistFromTop = mousePosition.y - listBounds.top
 
-            const insertAtIndex = Math.floor(((mouseDistFromTop - 22.5) / 45)) - 1
+            const insertAtIndex = Math.floor(((mouseDistFromTop - 31.5) / 63)) - 1
 
             if (toListId == null) {
                 return
@@ -76,9 +70,6 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         if (bounds && mousePosition) {
             const offset = getBoundsPointOffset(bounds, mousePosition)
 
-            // const containerOffset = document.elementsFromPoint(mousePosition.x, mousePosition.y).filter(elem => elem.id.startsWith('list-'))[0].getBoundingClientRect()
-
-            // setOriginalOffset({ x: -offset.x - containerOffset.x, y: -offset.y - containerOffset.y })
             setDraggingItem({
                 itemId: itemData.id,
                 originalOffset: { x: -offset.x, y: -offset.y }
@@ -90,16 +81,19 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
         setDraggingItem(undefined)
     }
 
-    // const [cssHeight, setCssHeight] = useState(0)
+    const idNumberSum = useMemo(() => (itemData.id.split('').reduce((sum, char) => {
+        if (Number.isNaN(Number.parseInt(char))) {
+            return sum;
+        }
 
-    // useEffect(() => {
-    //     setTimeout(() => setCssHeight(40), 0)
-    // }, [])
+        return sum + Number.parseInt(char)
 
-    // const mainStyle: CSSProperties = {
-    //     height: cssHeight,
-    //     minHeight: cssHeight
-    // }
+    }, 0)), [itemData.id]);
+
+    const hueRotations = [60, 120, 180, 240, 300];
+
+    const rotationFromId = idNumberSum % 10 - 5;
+    const colourIdxFromId = idNumberSum % hueRotations.length;
 
     const draggingStyle: CSSProperties = dragging && mousePosition != null && originalOffset != null
         ? {
@@ -107,20 +101,20 @@ export const BoardViewerListItem = ({ itemData, listId, removeItem }: BoardViewe
             top: mousePosition.y + originalOffset.y,
             left: mousePosition.x + originalOffset.x,
             minWidth: 290,
-            zIndex: 999
+            zIndex: 999,
+            transform: 'scale(1.15)'
         }
         : {}
 
     const itemContents: React.JSX.Element = <>
-        <EditableTitle
-            defaultTitle={itemData.title}
-            saveTitle={saveItemTitle}
+        <StickyTag
+            itemId={itemData.id}
+            text={itemData.title}
+            hueRotation={hueRotations[colourIdxFromId]}
+            rotation={rotationFromId}
+            updateTitle={saveItemTitle}
+            removeItem={() => removeItem(listId, itemData.id)}
         />
-        <SquareButton
-            icon={<MdDelete />}
-            onClick={() => removeItem(listId, itemData.id)}
-        />
-        <BoardViewerListItemModal />
     </>
 
     return (

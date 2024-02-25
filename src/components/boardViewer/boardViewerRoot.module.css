@@ -1,7 +1,7 @@
 @import '../../globalVariables.module.css';
 
 .container {
-    background-image: url('../../assets/cat1.jpg');
+    background-image: url('../../assets/cork-board.jpg');
     background-size: cover;
     display: flex;
     flex-direction: column;

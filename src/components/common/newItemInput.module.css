@@ -30,9 +30,16 @@
     outline: none;
 }
 
-.confirmButton {}
+.confirmButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .addButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-width: 45px !important;
     padding-right: 5px !important;
 }

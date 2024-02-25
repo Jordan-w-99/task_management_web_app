@@ -95,12 +95,15 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
             top: mousePosition.y + originalOffset.y,
             left: mousePosition.x + originalOffset.x,
             minHeight: adjustedListHeight,
-            maxHeight: adjustedListHeight
+            maxHeight: adjustedListHeight,
+            zIndex: 9999,
+            transform: `scale(1.05) rotate(3deg)`
         }
         : {}
 
     const listContents = (
         <>
+            <div className={styles.paperHeader} />
             <div className={styles.boardListTitle}>
                 <EditableTitle
                     defaultTitle={listData.title}
@@ -112,6 +115,7 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
                     onClick={() => removeList(listData.id)}
                 />
             </div>
+            <div className={styles.divider} />
             <div className={styles.boardListItemsContainer} ref={listDivRef}>
                 {listData.items.map(item => (
                     <BoardViewerListItem
@@ -122,12 +126,15 @@ export const BoardViewerList = ({ listData, removeList }: BoardViewerListProps) 
                     />
                 ))}
             </div>
-            <NewItemInput
-                inputPlaceholder="Item Name..."
-                action={(title: string) => {
-                    createNewItem(listData.id, title)
-                }}
-            />
+            <div className={styles.divider} />
+            <div style={{ marginTop: 5 }}>
+                <NewItemInput
+                    inputPlaceholder="Item Name..."
+                    action={(title: string) => {
+                        createNewItem(listData.id, title)
+                    }}
+                />
+            </div>
         </>
     )
 

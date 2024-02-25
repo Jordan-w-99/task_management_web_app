@@ -1,36 +1,55 @@
 @import '../../themeColours.module.css';
 
+.paperHeader {
+    background-color: #462719;
+    min-height: 40px;
+    max-height: 40px;
+    margin: -15px;
+    margin-bottom: 10px;
+    background-image: url('../../assets/listHeader.jpg');
+    filter: brightness(0.85);
+    border-bottom: 1px solid rgba(54, 54, 54, 0.521);
+}
+
 .boardListContainer {
     min-width: 300px;
     max-width: 300px;
-    background-color: rgba(var(--midRgbVals), 0.7);
+    background: linear-gradient(170deg,
+            #fffefd 0%,
+            #f8f4f0 12%,
+            #e9e1d8 75%,
+            #e2d8cd 100%);
+    /* background-color: rgba(var(--midRgbVals), 0.7); */
     /* backdrop-filter: blur(3px); */
-    border-radius: 10px;
+    border-radius: 2px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    gap: 5px;
+    padding: 15px;
     user-select: none;
     align-self: start;
     max-height: 100%;
     max-height: -moz-available;
     max-height: -webkit-fill-available;
     max-height: fill-available;
+    box-shadow: 5px 5px 7px rgba(33, 33, 33, .5);
 }
 
 .draggingPlaceholder {
-    background-color: rgba(var(--lightestRgbVals), 0.7);
+    /* background-color: rgba(var(--lightestRgbVals), 0.7); */
     /* backdrop-filter: unset; */
+    background: unset;
+    background-color: #eae6e094;
+    box-shadow: none;
 }
 
 .boardListTitle {
+    font-family: "Handlee", cursive;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bolder;
-    color: white;
-    font-size: x-large;
-    padding-bottom: 5px;
+    color: black;
+    font-size: xx-large;
     min-height: 36px;
 }
 
@@ -39,4 +58,15 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    padding-bottom: 10px;
+    /* min-height: 58px; */
+}
+
+.divider {
+    height: 2px;
+    width: 100%;
+    background-color: black;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
