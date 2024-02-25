@@ -53,18 +53,21 @@ export const StickyNote = ({ boardId, text, hueRotation, rotation, buttonRight }
                                 {buttonRight}
                             </div>
                         }
-                        <Link to={`board/${boardId}`}>
-                            <div
-                                style={{
-                                    rotate: hovered ? '-1deg' : '-1deg',
-                                    translate: hovered ? '-2px -2px' : '0',
-                                    transform: hovered ? 'skew(7deg)' : '',
-                                    scale: hovered ? '95%' : '',
-                                    // transition: 'all 200ms'
-                                }}
-                            >
-                                {text}
-                            </div>
+                        <Link to={`board/${boardId}`}
+                            style={{
+                                rotate: hovered ? '-1deg' : '-1deg',
+                                translate: hovered ? '-2px -2px' : '0',
+                                transform: hovered ? 'skew(7deg)' : '',
+                                scale: hovered ? '95%' : '',
+                                // transition: 'all 200ms'
+                                width: '100%',
+                                height: '75%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            {text}
                         </Link>
                     </div>
                 </div>
