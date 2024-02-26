@@ -5,7 +5,7 @@ import { BoardViewerRoot } from "./components/boardViewer/boardViewerRoot"
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="task_management_web_app">
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<BoardSelectorRoot />} />
